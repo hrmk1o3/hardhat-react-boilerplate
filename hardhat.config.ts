@@ -6,6 +6,12 @@ import "hardhat-deploy";
 import "@symfoni/hardhat-react";
 import "hardhat-typechain";
 import "@typechain/ethers-v5";
+import "@nomiclabs/hardhat-etherscan";
+
+import * as dotEnv from 'dotenv';
+dotEnv.config();
+
+const { INFURA_PROJECT_ID, PRIVATE_KEY, ETHERSCAN_API_KEY } = process.env;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -33,20 +39,20 @@ const config: HardhatUserConfig = {
         mnemonic: "test test test test test test test test test test test junk", // test test test test test test test test test test test junk
       },
     },
-    // hardhat: {
-    //   accounts: [
-    //     {
-    //       balance: "10000000000000000000000",
-    //       privateKey:
-    //         "0xe87d780e4c31c953a68aef2763df56599c9cfe73df4740fc24c2d0f5acd21bae",
-    //     },
-    //   ],
-    // },
+    ropsten: {
+      url: `https://ropsten.infura.io/v3/${INFURA_PROJECT_ID}`,
+      accounts: [PRIVATE_KEY]
+    }
+  },
+  etherscan: {
+    // Your API key for Etherscan
+    // Obtain one at https://etherscan.io/
+    apiKey: ETHERSCAN_API_KEY
   },
   solidity: {
     compilers: [
       {
-        version: "0.7.3",
+        version: "0.8.7",
         settings: {
           optimizer: {
             enabled: true,
